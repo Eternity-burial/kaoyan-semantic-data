@@ -1,0 +1,138 @@
+{
+  "manifest_version": "1.0.0",
+  "generated_at": "2026-09-19 19:11:33",
+  "git_commit": "2f4bc783e0ed238a039433436bf0f85f3880f37d",
+  "aggregation_script": "scripts/generate_semantic_inventory.py",
+  "schema_version": "pass1.v1.2",
+  "normalization_rules": {
+    "unicode_normalization": "NFKC",
+    "whitespace_rule": "collapse multiple spaces to single space, strip leading/trailing",
+    "quote_rule": "strip symmetrical outer quotes without altering internal math",
+    "punctuation_rule": "strip trailing sentence punctuation [。.;;,，:：]+ without altering math variables",
+    "synonym_rule": "strict raw surface retention, no semantic rewriting, no synonym merging"
+  },
+  "input_files": {
+    "data/semantic_raw.jsonl": {
+      "records": 4575,
+      "sha256": "03ac449d19ef70ec87aead6e90d23a522dcf46ba40bada42a4f179b0860acbba"
+    },
+    "data/master_structural_manifest.jsonl": {
+      "records": 4575,
+      "sha256": "29564d1a55bd604846e6d746756450c7daa8c6b670a6530d5fea7cc39a2e86d0"
+    },
+    "data/cost_ledger.jsonl": {
+      "sha256": "227fc885cb9732042ee8bc28d03ed6fc76ea221423d790f008eccea29d732047"
+    },
+    "database/ai_runs.sqlite": {
+      "sha256": "ac3259ecc2c603974075c5c38589633d9059c83ca2da0590279ad892c2b59409"
+    },
+    "schemas/pass1.v1.2.schema.json": {
+      "sha256": "70cf493d6ad8d38785d5124e26e9c1122cb50d3ad17329d7288c545cb3b3398e"
+    },
+    "prompts/pass1.v1.2.api.md": {
+      "sha256": "d1f76a7d255e01957448ddaba19d1ee546e24fabaaaaf73d21843f746c348a37"
+    }
+  },
+  "output_files": {
+    "audit/anomalies.jsonl": {
+      "size_bytes": 5775136,
+      "line_count": 15819,
+      "sha256": "337dc5d5cb8f4ecf8d1be18c0f11ba6c0d5dcea838346eb7ebb224ca0ecf2ea7"
+    },
+    "audit/possible_merge_candidates.jsonl": {
+      "size_bytes": 694448,
+      "line_count": 985,
+      "sha256": "3520d945115c769c9e171972e0246d6c5898adde30b825f595e96bed7b3f8328"
+    },
+    "candidates/alternative_methods.jsonl": {
+      "size_bytes": 1188720,
+      "line_count": 1970,
+      "sha256": "ca8711993f774b9bd4065d66bcfc92e1aea378cabf24f4432a4a74fc27f5b549"
+    },
+    "candidates/bottlenecks.jsonl": {
+      "size_bytes": 453925,
+      "line_count": 7,
+      "sha256": "f86e9b6c2d11eb85fc5276ba9df93004ed7f25df07173c25967b012e72bc05c4"
+    },
+    "candidates/conditions.jsonl": {
+      "size_bytes": 5066579,
+      "line_count": 7106,
+      "sha256": "384c78ad6a095dab28cec8af9de0d477e02b623038db6486a513c37f42a99f49"
+    },
+    "candidates/exam_points.jsonl": {
+      "size_bytes": 2856733,
+      "line_count": 5294,
+      "sha256": "96f9463a45208ee41d73a413d7c6d9b3f5536760c5b02d0e6323b5a62dfb8264"
+    },
+    "candidates/invalid_methods.jsonl": {
+      "size_bytes": 447229,
+      "line_count": 797,
+      "sha256": "2a9e73404c95baa372f1a997f18cc4bfc25cf7210c03ffbac666652907753b09"
+    },
+    "candidates/knowledge.jsonl": {
+      "size_bytes": 4630553,
+      "line_count": 7500,
+      "sha256": "4522d7b2eda945e540face7bb2d78c912d0148468a25058f5b1076c515930a70"
+    },
+    "candidates/pitfalls.jsonl": {
+      "size_bytes": 4144217,
+      "line_count": 7728,
+      "sha256": "59463a5f49b1e59aeccdae39ce44a4ed8fcf47868206ec8759438618fc672e09"
+    },
+    "candidates/signals.jsonl": {
+      "size_bytes": 6522447,
+      "line_count": 11496,
+      "sha256": "dbf7e51cf0e19a9844495af8aa68fa0e227db0b568cc7ee883ecfa9b7dc62e77"
+    },
+    "candidates/transformations.jsonl": {
+      "size_bytes": 5747440,
+      "line_count": 10390,
+      "sha256": "b917fd421ed26ea19d8780409c17712f8b0943675b8728f0dc9714b79f5f9576"
+    },
+    "candidates/used_methods.jsonl": {
+      "size_bytes": 2801764,
+      "line_count": 4783,
+      "sha256": "160dc891470a9a18f320c2c9bb83d64b50b9ce8b3a6de4111064731fd330b9cc"
+    },
+    "context/candidate_context.jsonl": {
+      "size_bytes": 81371458,
+      "line_count": 57071,
+      "sha256": "4b1c6d9daf372d03ec8373fd46bb3fdbc4f74759ef2b56b9bcdbac2aec3434e2"
+    },
+    "global_stats.json": {
+      "size_bytes": 7600,
+      "line_count": 318,
+      "sha256": "73c05b7a9e96413947a109e0db2c7e83b1314486ed1b9c5f9660da0759d2eda8"
+    },
+    "indexes/candidate_to_qids.jsonl": {
+      "size_bytes": 11734046,
+      "line_count": 57071,
+      "sha256": "0341e610f17c52465ffbc5903cf7efd04970328b16282a69f2b9c7596d180eda"
+    },
+    "indexes/qid_to_candidates.jsonl": {
+      "size_bytes": 5297231,
+      "line_count": 4575,
+      "sha256": "e4cc8b701a75204370840043d5c781cf3c65d423520c596725380b22e92f04d0"
+    },
+    "indexes/raw_variant_index.jsonl": {
+      "size_bytes": 3478,
+      "line_count": 12,
+      "sha256": "977c7d151a44afd24a221e2c5e49a2933f8d6ec95aa95ac961726e06a9c5ec5a"
+    },
+    "relations/cooccurrence.jsonl": {
+      "size_bytes": 59032959,
+      "line_count": 241563,
+      "sha256": "8af1c52c04a261a4efda8eb6230d0bd19619f07695d3b0182e722a40d4e970ee"
+    },
+    "relations/cross_type_collisions.jsonl": {
+      "size_bytes": 823076,
+      "line_count": 1325,
+      "sha256": "bdb4cc92f6124e7a0f794633624c7ef668e725023cf32639b8ce622a09ced99f"
+    },
+    "relations/method_role_collisions.jsonl": {
+      "size_bytes": 379689,
+      "line_count": 463,
+      "sha256": "7cf4e5f684043190d1e899556ebba83f50d17de5e115173e77ce4cc8d8cb0624"
+    }
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "metadata": {
+    "title": "Direct-Vision Pass 1 Global Semantic Inventory Statistics",
+    "version": "1.0.0",
+    "generated_at": "2026-09-19 19:11:31",
+    "git_commit": "2f4bc783e0ed238a039433436bf0f85f3880f37d",
+    "target_books_count": 5,
+    "target_records_count": 4575,
+    "unique_qids_count": 4575,
+    "duplicate_qids_count": 0,
+    "malformed_records_count": 0
+  },
+  "breakdown": {
+    "by_book": {
+      "强化36讲": 464,
+      "基础30讲": 872,
+      "1000题": 1229,
+      "李范全书": 840,
+      "老姚高数": 1170
+    },
+    "by_discipline": {
+      "高数": 3257,
+      "线代": 712,
+      "概率论": 606
+    },
+    "by_tier": {
+      "Tier 1": 3656,
+      "Tier 2": 485,
+      "Tier 3": 434
+    },
+    "by_model": {
+      "qwen3.8-flash": 3656,
+      "glm-4.6v-flashx": 265,
+      "qwen3.8-max": 434,
+      "glm-4.6v": 220
+    },
+    "by_solution_status": {
+      "present_and_complete": 4209,
+      "present_incomplete": 8,
+      "missing": 358
+    },
+    "by_problem_form": {
+      "填空题": 844,
+      "选择题": 904,
+      "证明题": 629,
+      "计算题": 2296,
+      "综合题": 77,
+      "应用题": 55,
+      "概念辨析题": 1
+    }
+  },
+  "confidence_averages": {
+    "vision": 0.9822,
+    "semantic": 0.9768,
+    "overall": 0.9778
+  },
+  "semantic_fields_summary": {
+    "knowledge_candidates": {
+      "non_empty_questions": 4575,
+      "total_occurrences": 15423,
+      "avg_per_question": 3.37
+    },
+    "exam_point_candidates": {
+      "non_empty_questions": 4575,
+      "total_occurrences": 6537,
+      "avg_per_question": 1.43
+    },
+    "used_methods": {
+      "non_empty_questions": 4249,
+      "total_occurrences": 8875,
+      "avg_per_question": 1.94
+    },
+    "alternative_methods": {
+      "non_empty_questions": 3327,
+      "total_occurrences": 3908,
+      "avg_per_question": 0.85
+    },
+    "signals": {
+      "non_empty_questions": 4575,
+      "total_occurrences": 11668,
+      "avg_per_question": 2.55
+    },
+    "conditions": {
+      "non_empty_questions": 4557,
+      "total_occurrences": 8031,
+      "avg_per_question": 1.76
+    },
+    "pitfalls": {
+      "non_empty_questions": 4551,
+      "total_occurrences": 8759,
+      "avg_per_question": 1.91
+    },
+    "key_transformations": {
+      "non_empty_questions": 4457,
+      "total_occurrences": 10471,
+      "avg_per_question": 2.29
+    },
+    "bottleneck_candidates": {
+      "non_empty_questions": 4575,
+      "total_occurrences": 9538,
+      "avg_per_question": 2.08
+    },
+    "objective": {
+      "non_empty_questions": 4575,
+      "total_occurrences": 5283,
+      "avg_per_question": 1.15
+    },
+    "solution_skeleton": {
+      "non_empty_questions": 4258,
+      "total_occurrences": 17155,
+      "avg_per_question": 3.75
+    },
+    "question_text_rough": {
+      "non_empty_questions": 4575,
+      "total_occurrences": 0,
+      "avg_per_question": 0.0
+    },
+    "solution_outline_rough": {
+      "non_empty_questions": 4567,
+      "total_occurrences": 0,
+      "avg_per_question": 0.0
+    },
+    "invalid_method_candidates": {
+      "non_empty_questions": 1138,
+      "total_occurrences": 1258,
+      "avg_per_question": 0.27
+    }
+  },
+  "candidate_inventory_summary": {
+    "knowledge": {
+      "unique_normalized": 7500,
+      "total_occurrences": 15423,
+      "singletons": 5608,
+      "singleton_ratio": 0.7477333333333334,
+      "cross_discipline_count": 82
+    },
+    "exam_point": {
+      "unique_normalized": 5294,
+      "total_occurrences": 6537,
+      "singletons": 4670,
+      "singleton_ratio": 0.8821307140158671,
+      "cross_discipline_count": 10
+    },
+    "used_method": {
+      "unique_normalized": 4783,
+      "total_occurrences": 8875,
+      "singletons": 3886,
+      "singleton_ratio": 0.8124607986619277,
+      "cross_discipline_count": 130
+    },
+    "alternative_method": {
+      "unique_normalized": 1970,
+      "total_occurrences": 3908,
+      "singletons": 1578,
+      "singleton_ratio": 0.8010152284263959,
+      "cross_discipline_count": 41
+    },
+    "invalid_method": {
+      "unique_normalized": 797,
+      "total_occurrences": 1258,
+      "singletons": 677,
+      "singleton_ratio": 0.849435382685069,
+      "cross_discipline_count": 2
+    },
+    "signal": {
+      "unique_normalized": 11496,
+      "total_occurrences": 11668,
+      "singletons": 11354,
+      "singleton_ratio": 0.9876478775226165,
+      "cross_discipline_count": 0
+    },
+    "pitfall": {
+      "unique_normalized": 7728,
+      "total_occurrences": 8759,
+      "singletons": 7251,
+      "singleton_ratio": 0.9382763975155279,
+      "cross_discipline_count": 45
+    },
+    "transformation": {
+      "unique_normalized": 10390,
+      "total_occurrences": 10471,
+      "singletons": 10324,
+      "singleton_ratio": 0.9936477382098171,
+      "cross_discipline_count": 0
+    },
+    "bottleneck": {
+      "unique_normalized": 7,
+      "total_occurrences": 9538,
+      "singletons": 0,
+      "singleton_ratio": 0.0,
+      "cross_discipline_count": 7
+    },
+    "condition": {
+      "unique_normalized": 7106,
+      "total_occurrences": 8031,
+      "singletons": 6696,
+      "singleton_ratio": 0.94230227976358,
+      "cross_discipline_count": 28,
+      "by_kind": {
+        "domain": 2433,
+        "model_assumption": 481,
+        "method_validity": 2897,
+        "theorem_hypothesis": 1295
+      }
+    }
+  },
+  "frequency_tier_distribution": {
+    "knowledge": {
+      "100+": 4,
+      "50-99": 7,
+      "10-49": 185,
+      "5-9": 342,
+      "2-4": 1354,
+      "1": 5608
+    },
+    "exam_point": {
+      "10-49": 16,
+      "5-9": 61,
+      "2-4": 547,
+      "1": 4670
+    },
+    "used_method": {
+      "100+": 1,
+      "50-99": 9,
+      "10-49": 93,
+      "5-9": 137,
+      "2-4": 657,
+      "1": 3886
+    },
+    "alternative_method": {
+      "100+": 1,
+      "50-99": 4,
+      "10-49": 49,
+      "5-9": 62,
+      "2-4": 276,
+      "1": 1578
+    },
+    "invalid_method": {
+      "50-99": 1,
+      "10-49": 9,
+      "5-9": 21,
+      "2-4": 89,
+      "1": 677
+    },
+    "signal": {
+      "5-9": 1,
+      "2-4": 141,
+      "1": 11354
+    },
+    "pitfall": {
+      "50-99": 1,
+      "10-49": 12,
+      "5-9": 44,
+      "2-4": 420,
+      "1": 7251
+    },
+    "transformation": {
+      "2-4": 66,
+      "1": 10324
+    },
+    "bottleneck": {
+      "100+": 7
+    },
+    "condition": {
+      "50-99": 1,
+      "10-49": 12,
+      "5-9": 36,
+      "2-4": 361,
+      "1": 6696
+    }
+  },
+  "cross_discipline_distribution": {
+    "knowledge": {
+      "single": 7418,
+      "cross": 82
+    },
+    "exam_point": {
+      "single": 5284,
+      "cross": 10
+    },
+    "used_method": {
+      "cross": 130,
+      "single": 4653
+    },
+    "alternative_method": {
+      "single": 1929,
+      "cross": 41
+    },
+    "invalid_method": {
+      "single": 795,
+      "cross": 2
+    },
+    "signal": {
+      "single": 11496
+    },
+    "pitfall": {
+      "cross": 45,
+      "single": 7683
+    },
+    "transformation": {
+      "single": 10390
+    },
+    "bottleneck": {
+      "cross": 7
+    },
+    "condition": {
+      "cross": 28,
+      "single": 7078
+    }
+  },
+  "relations_summary": {
+    "total_cooccurrence_pairs": 241563,
+    "method_role_collisions": 463,
+    "cross_type_collisions": 1325,
+    "anomalies_detected": 15819,
+    "possible_merge_groups": 985
+  }
+}
