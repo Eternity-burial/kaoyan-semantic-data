@@ -36,7 +36,7 @@ CARD_WIDGET_TEMPLATE = """<!DOCTYPE html>
         </div>
       </div>
       <span class="text-xs px-2.5 py-1 rounded-full font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-        ● 77.42% 题目挂载
+        ● __COVERAGE_RATE__% 题目挂载
       </span>
     </div>
 
@@ -45,7 +45,7 @@ CARD_WIDGET_TEMPLATE = """<!DOCTYPE html>
       <div class="bg-[var(--content)]/40 p-2.5 rounded-xl border border-[var(--border)] text-center">
         <div class="text-[11px] text-[var(--muted-foreground)]">规范本体节点</div>
         <div class="text-lg font-bold text-indigo-400 leading-tight mt-0.5">__TOTAL_NODES__</div>
-        <div class="text-[10px] text-[var(--muted-foreground)] mt-0.5">3 大学科 / 79 专题</div>
+        <div class="text-[10px] text-[var(--muted-foreground)] mt-0.5">3 大学科 / __TOPIC_COUNT__ 专题</div>
       </div>
       <div class="bg-[var(--content)]/40 p-2.5 rounded-xl border border-[var(--border)] text-center">
         <div class="text-[11px] text-[var(--muted-foreground)]">真题习题挂载</div>
@@ -68,20 +68,20 @@ CARD_WIDGET_TEMPLATE = """<!DOCTYPE html>
     <div class="mb-3 bg-[var(--content)]/30 p-2.5 rounded-xl border border-[var(--border)]">
       <div class="flex justify-between items-center text-xs mb-1.5 font-medium">
         <span class="text-[var(--muted-foreground)]">规范节点层级构成</span>
-        <span class="text-[var(--foreground)]">ExamPoint(1051) · KP(139) · Method(110) · Topic(79)</span>
+        <span class="text-[var(--foreground)]">ExamPoint(__EP_COUNT__) · KP(__KP_COUNT__) · Method(__METHOD_COUNT__) · Topic(__TOPIC_COUNT__)</span>
       </div>
       <div class="w-full h-2 rounded-full overflow-hidden flex bg-gray-700/30">
-        <div style="width: 75.67%" class="bg-blue-500" title="题型/考点 75.7%"></div>
-        <div style="width: 10.01%" class="bg-emerald-500" title="理论知识点 10.0%"></div>
-        <div style="width: 7.92%" class="bg-amber-500" title="解题方法 7.9%"></div>
-        <div style="width: 5.69%" class="bg-purple-500" title="宏观专题 5.7%"></div>
-        <div style="width: 0.72%" class="bg-rose-500" title="易错陷阱 0.7%"></div>
+        <div style="width: __EP_PCT__%" class="bg-blue-500" title="题型/考点 __EP_PCT__%"></div>
+        <div style="width: __KP_PCT__%" class="bg-emerald-500" title="理论知识点 __KP_PCT__%"></div>
+        <div style="width: __METHOD_PCT__%" class="bg-amber-500" title="解题方法 __METHOD_PCT__%"></div>
+        <div style="width: __TOPIC_PCT__%" class="bg-purple-500" title="宏观专题 __TOPIC_PCT__%"></div>
+        <div style="width: __PITFALL_PCT__%" class="bg-rose-500" title="易错陷阱 __PITFALL_PCT__%"></div>
       </div>
       <div class="flex items-center justify-between text-[10px] text-[var(--muted-foreground)] mt-1.5">
-        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> 题型/考点 75.7%</span>
-        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> 基础知识点 10.0%</span>
-        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> 解题方法 7.9%</span>
-        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span> 宏观专题 5.7%</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> 题型/考点 __EP_PCT__%</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> 基础知识点 __KP_PCT__%</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> 解题方法 __METHOD_PCT__%</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span> 宏观专题 __TOPIC_PCT__%</span>
       </div>
     </div>
 
@@ -179,25 +179,25 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
       <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div class="bg-gradient-to-br from-indigo-950/50 to-slate-900 p-4 rounded-2xl border border-indigo-500/20 shadow-sm relative overflow-hidden">
           <div class="text-xs font-medium text-indigo-300">规范教学节点 (Canonical Nodes)</div>
-          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-nodes">1,389</div>
+          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-nodes">--</div>
           <div class="text-xs text-slate-400 mt-1 flex items-center justify-between">
-            <span>79 专题 · 1051 题型考点</span>
+            <span id="kpi-sub-nodes">-- 专题 · -- 题型考点</span>
             <span class="text-indigo-400 font-semibold">100% 固化</span>
           </div>
         </div>
 
         <div class="bg-gradient-to-br from-emerald-950/50 to-slate-900 p-4 rounded-2xl border border-emerald-500/20 shadow-sm relative overflow-hidden">
           <div class="text-xs font-medium text-emerald-300">题目语义挂载率 (Question Linked)</div>
-          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-linked">77.42%</div>
+          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-linked">--%</div>
           <div class="text-xs text-slate-400 mt-1 flex items-center justify-between">
-            <span>3,542 / 4,575 题已挂载</span>
+            <span id="kpi-sub-linked">-- 题已挂载</span>
             <span class="text-emerald-400 font-semibold">高保真</span>
           </div>
         </div>
 
         <div class="bg-gradient-to-br from-amber-950/50 to-slate-900 p-4 rounded-2xl border border-amber-500/20 shadow-sm relative overflow-hidden">
           <div class="text-xs font-medium text-amber-300">认知推理因果边 (Reasoning Edges)</div>
-          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-edges">9,302</div>
+          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-edges">--</div>
           <div class="text-xs text-slate-400 mt-1 flex items-center justify-between">
             <span>8 大强类型因果关系</span>
             <span class="text-amber-400 font-semibold">自适应支撑</span>
@@ -206,7 +206,7 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
 
         <div class="bg-gradient-to-br from-purple-950/50 to-slate-900 p-4 rounded-2xl border border-purple-500/20 shadow-sm relative overflow-hidden">
           <div class="text-xs font-medium text-purple-300">多源强共识核心考点 (Consensus)</div>
-          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-consensus">244</div>
+          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-consensus">--</div>
           <div class="text-xs text-slate-400 mt-1 flex items-center justify-between">
             <span>讲义/李范/强化36讲共识</span>
             <span class="text-purple-400 font-semibold">权威教研</span>
@@ -215,7 +215,7 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
 
         <div class="bg-gradient-to-br from-cyan-950/50 to-slate-900 p-4 rounded-2xl border border-cyan-500/20 shadow-sm relative overflow-hidden">
           <div class="text-xs font-medium text-cyan-300">对齐表面词汇量 (Surfaces)</div>
-          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-surfaces">2,655</div>
+          <div class="text-3xl font-extrabold text-white mt-2" id="kpi-surfaces">--</div>
           <div class="text-xs text-slate-400 mt-1 flex items-center justify-between">
             <span>高置信对齐 (无低分噪点)</span>
             <span class="text-cyan-400 font-semibold">精确归口</span>
@@ -232,45 +232,18 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
               <h3 class="font-bold text-white text-sm flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> 知识图谱节点类型构成
               </h3>
-              <span class="text-xs text-slate-400">总计 1,389 节点</span>
+              <span class="text-xs text-slate-400" id="donutTotalNodesText">总计 -- 节点</span>
             </div>
             <!-- Interactive Donut Chart -->
             <div class="flex items-center justify-center my-2">
-              <svg width="180" height="180" viewBox="0 0 42 42" class="donut">
-                <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#1e293b" stroke-width="5"></circle>
-                <!-- ExamPoint 75.67% -->
-                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#3b82f6" stroke-width="5" stroke-dasharray="75.67 24.33" stroke-dashoffset="25"></circle>
-                <!-- KnowledgePoint 10.01% -->
-                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#10b981" stroke-width="5" stroke-dasharray="10.01 89.99" stroke-dashoffset="49.33"></circle>
-                <!-- Method 7.92% -->
-                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#f59e0b" stroke-width="5" stroke-dasharray="7.92 92.08" stroke-dashoffset="39.32"></circle>
-                <!-- Topic 5.69% -->
-                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="5.69 94.31" stroke-dashoffset="31.4"></circle>
-                <!-- Pitfall 0.72% -->
-                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#ef4444" stroke-width="5" stroke-dasharray="0.72 99.28" stroke-dashoffset="25.71"></circle>
-                <text x="50%" y="47%" text-anchor="middle" fill="#fff" font-size="4" font-weight="bold">1,389</text>
-                <text x="50%" y="57%" text-anchor="middle" fill="#94a3b8" font-size="2.2">NODES</text>
+              <svg width="180" height="180" viewBox="0 0 42 42" class="donut" id="donutChartSvg">
+                <!-- Populated dynamically by JS -->
               </svg>
             </div>
           </div>
           <!-- Legend list -->
-          <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 mt-2">
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 border border-slate-700/50">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> 题型考点 (ExamPoint)</span>
-              <span class="font-bold text-white">1,051 (75.7%)</span>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 border border-slate-700/50">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 理论知识 (Knowledge)</span>
-              <span class="font-bold text-white">139 (10.0%)</span>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 border border-slate-700/50">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 解题方法 (Method)</span>
-              <span class="font-bold text-white">110 (7.9%)</span>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 border border-slate-700/50">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> 宏观专题 (Topic)</span>
-              <span class="font-bold text-white">79 (5.7%)</span>
-            </div>
+          <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 mt-2" id="nodeLegendContainer">
+            <!-- Populated dynamically by JS -->
           </div>
         </div>
 
@@ -284,48 +257,16 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
               <span class="text-xs text-slate-400">考研数学一/二/三</span>
             </div>
             <!-- Discipline bars -->
-            <div class="space-y-3.5 my-3">
-              <div>
-                <div class="flex justify-between text-xs mb-1">
-                  <span class="text-cyan-300 font-medium">高等数学 (Calculus)</span>
-                  <span class="text-white font-bold">944 节点 (67.96%) · 3,257 题</span>
-                </div>
-                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                  <div class="bg-cyan-500 h-full rounded-full" style="width: 68%"></div>
-                </div>
-              </div>
-
-              <div>
-                <div class="flex justify-between text-xs mb-1">
-                  <span class="text-amber-300 font-medium">概率论与数理统计 (Probability)</span>
-                  <span class="text-white font-bold">272 节点 (19.58%) · 606 题</span>
-                </div>
-                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                  <div class="bg-amber-500 h-full rounded-full" style="width: 20%"></div>
-                </div>
-              </div>
-
-              <div>
-                <div class="flex justify-between text-xs mb-1">
-                  <span class="text-purple-300 font-medium">线性代数 (Linear Algebra)</span>
-                  <span class="text-white font-bold">173 节点 (12.45%) · 712 题</span>
-                </div>
-                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                  <div class="bg-purple-500 h-full rounded-full" style="width: 12%"></div>
-                </div>
-              </div>
+            <div class="space-y-3.5 my-3" id="disciplineBarsContainer">
+              <!-- Populated dynamically by JS -->
             </div>
           </div>
 
           <!-- Book breakdown tags -->
           <div class="border-t border-slate-800 pt-3">
             <div class="text-[11px] text-slate-400 mb-2 font-medium">已覆盖五大经典题库:</div>
-            <div class="flex flex-wrap gap-1.5 text-[11px]">
-              <span class="px-2 py-1 bg-slate-800 rounded-lg text-slate-300 border border-slate-700/60">《张宇1000题》: 1,229 题</span>
-              <span class="px-2 py-1 bg-slate-800 rounded-lg text-slate-300 border border-slate-700/60">《老姚高数》: 1,170 题</span>
-              <span class="px-2 py-1 bg-slate-800 rounded-lg text-slate-300 border border-slate-700/60">《基础30讲》: 872 题</span>
-              <span class="px-2 py-1 bg-slate-800 rounded-lg text-slate-300 border border-slate-700/60">《李范全书》: 840 题</span>
-              <span class="px-2 py-1 bg-slate-800 rounded-lg text-slate-300 border border-slate-700/60">《强化36讲》: 464 题</span>
+            <div class="flex flex-wrap gap-1.5 text-[11px]" id="bookBreakdownContainer">
+              <!-- Populated dynamically by JS -->
             </div>
           </div>
         </div>
@@ -337,41 +278,10 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
               <h3 class="font-bold text-white text-sm flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 8 类认知推理边拓扑分布
               </h3>
-              <span class="text-xs text-slate-400">总计 9,302 边</span>
+              <span class="text-xs text-slate-400" id="totalEdgesCountText">总计 -- 边</span>
             </div>
-            <div class="space-y-2 text-xs">
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">Question ➔ Method (APPLIES)</span>
-                <span class="font-bold text-amber-400">3,525 条</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">Question ➔ Knowledge (EXERCISES)</span>
-                <span class="font-bold text-emerald-400">1,905 条</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">Question ➔ ExamPoint (INSTANCE_OF)</span>
-                <span class="font-bold text-blue-400">1,671 条</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">Method ➔ Pitfall (AVOIDS)</span>
-                <span class="font-bold text-rose-400">595 条</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">ExamPoint ➔ Method (SOLVED_BY)</span>
-                <span class="font-bold text-indigo-400">526 条</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">Signal ➔ ExamPoint (TRIGGERS)</span>
-                <span class="font-bold text-purple-400">437 条</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">ExamPoint ➔ Knowledge (REQUIRES)</span>
-                <span class="font-bold text-teal-400">337 条</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
-                <span class="text-slate-300">Method ➔ Condition (PREREQUISITE)</span>
-                <span class="font-bold text-yellow-400">306 条</span>
-              </div>
+            <div class="space-y-2 text-xs" id="edgesBreakdownContainer">
+              <!-- Populated dynamically by JS -->
             </div>
           </div>
         </div>
@@ -386,7 +296,7 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
             </h3>
             <p class="text-xs text-slate-400 mt-0.5">在《讲义资料》《李范全书》《强化36讲》中被同时作为命题重点，且在题目中高频应用的考点</p>
           </div>
-          <span class="text-xs px-3 py-1 bg-purple-500/10 text-purple-300 border border-purple-500/20 rounded-lg">244 个核心共识考点</span>
+          <span class="text-xs px-3 py-1 bg-purple-500/10 text-purple-300 border border-purple-500/20 rounded-lg" id="consensusHeaderBadge">-- 个核心共识考点</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs" id="consensusHubsContainer">
@@ -617,17 +527,121 @@ FULL_HTML_TEMPLATE = """<!DOCTYPE html>
     // ==========================================================
     function initAnalytics() {
       const stats = ONTOLOGY_DATA.stats;
+      const totalN = stats.total_nodes || 1;
+      const tc = stats.type_counts || {};
+      const totalEdges = stats.total_edges || 1;
+
+      // 1. KPI cards
       document.getElementById('kpi-nodes').innerText = stats.total_nodes.toLocaleString();
+      document.getElementById('kpi-sub-nodes').innerText = `${tc.Topic || 0} 专题 · ${tc.ExamPoint || 0} 题型考点`;
+
       document.getElementById('kpi-linked').innerText = stats.coverage_rate + '%';
+      document.getElementById('kpi-sub-linked').innerText = `${stats.linked_questions.toLocaleString()} / ${stats.total_questions.toLocaleString()} 题已挂载`;
+
       document.getElementById('kpi-edges').innerText = stats.total_edges.toLocaleString();
       document.getElementById('kpi-consensus').innerText = stats.consensus_nodes.toLocaleString();
       document.getElementById('kpi-surfaces').innerText = stats.aligned_surfaces.toLocaleString();
+      document.getElementById('consensusHeaderBadge').innerText = `${stats.consensus_nodes.toLocaleString()} 个核心共识考点`;
 
-      // Render top consensus hubs
+      // 2. Donut & Legend
+      document.getElementById('donutTotalNodesText').innerText = `总计 ${totalN.toLocaleString()} 节点`;
+      const typeMeta = [
+        { key: 'ExamPoint', label: '题型考点 (ExamPoint)', color: '#3b82f6', bg: 'bg-blue-500' },
+        { key: 'KnowledgePoint', label: '理论知识 (Knowledge)', color: '#10b981', bg: 'bg-emerald-500' },
+        { key: 'Method', label: '解题方法 (Method)', color: '#f59e0b', bg: 'bg-amber-500' },
+        { key: 'Topic', label: '宏观专题 (Topic)', color: '#8b5cf6', bg: 'bg-purple-500' },
+        { key: 'Pitfall', label: '易错避坑 (Pitfall)', color: '#ef4444', bg: 'bg-rose-500' }
+      ];
+
+      let currentOffset = 25;
+      let svgCircles = `
+        <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#1e293b" stroke-width="5"></circle>
+      `;
+      let legendHtml = '';
+      typeMeta.forEach(m => {
+        const count = tc[m.key] || 0;
+        const pct = (count / totalN * 100);
+        if (count > 0) {
+          svgCircles += `
+            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="${m.color}" stroke-width="5" stroke-dasharray="${pct.toFixed(2)} ${(100 - pct).toFixed(2)}" stroke-dashoffset="${currentOffset.toFixed(2)}"></circle>
+          `;
+          currentOffset -= pct;
+          legendHtml += `
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 border border-slate-700/50">
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full ${m.bg}"></span> ${m.label}</span>
+              <span class="font-bold text-white">${count} (${pct.toFixed(1)}%)</span>
+            </div>
+          `;
+        }
+      });
+      svgCircles += `
+        <text x="50%" y="47%" text-anchor="middle" fill="#fff" font-size="4" font-weight="bold">${totalN.toLocaleString()}</text>
+        <text x="50%" y="57%" text-anchor="middle" fill="#94a3b8" font-size="2.2">NODES</text>
+      `;
+      document.getElementById('donutChartSvg').innerHTML = svgCircles;
+      document.getElementById('nodeLegendContainer').innerHTML = legendHtml;
+
+      // 3. Discipline bars
+      const dc = stats.disc_counts || {};
+      const discMeta = [
+        { name: '高等数学 (Calculus)', key: '高等数学', color: 'bg-cyan-500', text: 'text-cyan-300' },
+        { name: '概率论与数理统计 (Probability)', key: '概率论与数理统计', color: 'bg-amber-500', text: 'text-amber-300' },
+        { name: '线性代数 (Linear Algebra)', key: '线性代数', color: 'bg-purple-500', text: 'text-purple-300' }
+      ];
+      let discHtml = '';
+      discMeta.forEach(d => {
+        const count = dc[d.key] || 0;
+        const pct = (count / totalN * 100);
+        discHtml += `
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="${d.text} font-medium">${d.name}</span>
+              <span class="text-white font-bold">${count} 节点 (${pct.toFixed(1)}%)</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+              <div class="${d.color} h-full rounded-full" style="width: ${pct.toFixed(1)}%"></div>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('disciplineBarsContainer').innerHTML = discHtml;
+
+      // 4. Books breakdown
+      const bc = stats.book_counts || {};
+      let booksHtml = '';
+      for (const [book, count] of Object.entries(bc)) {
+        booksHtml += `<span class="px-2 py-1 bg-slate-800 rounded-lg text-slate-300 border border-slate-700/60">《${book}》: ${count.toLocaleString()} 题</span> `;
+      }
+      document.getElementById('bookBreakdownContainer').innerHTML = booksHtml;
+
+      // 5. Reasoning edges breakdown
+      const ec = stats.edge_type_counts || {};
+      document.getElementById('totalEdgesCountText').innerText = `总计 ${totalEdges.toLocaleString()} 边`;
+      const edgeMeta = [
+        { key: 'APPLIES_METHOD', label: 'Question ➔ Method (APPLIES)', color: 'text-amber-400' },
+        { key: 'EXERCISES_KNOWLEDGE', label: 'Question ➔ Knowledge (EXERCISES)', color: 'text-emerald-400' },
+        { key: 'INSTANCE_OF', label: 'Question ➔ ExamPoint (INSTANCE_OF)', color: 'text-blue-400' },
+        { key: 'AVOIDS_PITFALL', label: 'Method ➔ Pitfall (AVOIDS)', color: 'text-rose-400' },
+        { key: 'SOLVED_BY', label: 'ExamPoint ➔ Method (SOLVED_BY)', color: 'text-indigo-400' },
+        { key: 'TRIGGERS', label: 'Signal ➔ ExamPoint (TRIGGERS)', color: 'text-purple-400' },
+        { key: 'REQUIRES_KNOWLEDGE', label: 'ExamPoint ➔ Knowledge (REQUIRES)', color: 'text-teal-400' },
+        { key: 'PREREQUISITE_CONDITION', label: 'Method ➔ Condition (PREREQUISITE)', color: 'text-yellow-400' }
+      ];
+      let edgeRowsHtml = '';
+      edgeMeta.forEach(e => {
+        const c = ec[e.key] || 0;
+        edgeRowsHtml += `
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40">
+            <span class="text-slate-300">${e.label}</span>
+            <span class="font-bold ${e.color}">${c.toLocaleString()} 条</span>
+          </div>
+        `;
+      });
+      document.getElementById('edgesBreakdownContainer').innerHTML = edgeRowsHtml;
+
+      // 6. Top consensus hubs
       const hubsContainer = document.getElementById('consensusHubsContainer');
       hubsContainer.innerHTML = '';
-      
-      // Filter high consensus nodes
       const consensusNodes = ONTOLOGY_DATA.nodes.filter(n => (n.provenance || []).length >= 3).slice(0, 16);
       consensusNodes.forEach(node => {
         const card = document.createElement('div');
@@ -1521,6 +1535,8 @@ def main():
     print(f"Saved: {out_repo}")
 
     stats = data_bundle["stats"]
+    tc = stats["type_counts"]
+    total_n = max(stats["total_nodes"], 1)
     card_html = (CARD_WIDGET_TEMPLATE
                  .replace("__TOTAL_NODES__", f"{stats['total_nodes']:,}")
                  .replace("__LINKED_QUESTIONS__", f"{stats['linked_questions']:,}")
@@ -1528,6 +1544,15 @@ def main():
                  .replace("__COVERAGE_RATE__", f"{stats['coverage_rate']}")
                  .replace("__TOTAL_EDGES__", f"{stats['total_edges']:,}")
                  .replace("__CONSENSUS_NODES__", f"{stats['consensus_nodes']}")
+                 .replace("__TOPIC_COUNT__", f"{tc.get('Topic', 0)}")
+                 .replace("__EP_COUNT__", f"{tc.get('ExamPoint', 0)}")
+                 .replace("__KP_COUNT__", f"{tc.get('KnowledgePoint', 0)}")
+                 .replace("__METHOD_COUNT__", f"{tc.get('Method', 0)}")
+                 .replace("__EP_PCT__", f"{tc.get('ExamPoint', 0)/total_n*100:.1f}")
+                 .replace("__KP_PCT__", f"{tc.get('KnowledgePoint', 0)/total_n*100:.1f}")
+                 .replace("__METHOD_PCT__", f"{tc.get('Method', 0)/total_n*100:.1f}")
+                 .replace("__TOPIC_PCT__", f"{tc.get('Topic', 0)/total_n*100:.1f}")
+                 .replace("__PITFALL_PCT__", f"{tc.get('Pitfall', 0)/total_n*100:.1f}")
                 )
     
     out_card = BRAIN_DIR / "ontology_card_widget.html"

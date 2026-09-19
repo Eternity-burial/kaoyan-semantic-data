@@ -130,9 +130,83 @@ def normalize_surface(text: str) -> str:
     if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
         s = s[1:-1].strip()
     s = re.sub(r'^\*+|\*+$', '', s).strip()
-    s = re.sub(r'^[①②③④⑤⑥⑦⑧⑨⑩\d]+[\.、\s]*', '', s).strip()
-    s = re.sub(r'^[一二三四五六七八九十]+[\.、\s]*', '', s).strip()
+    # 剥离学科前缀与讲/章前缀
+    s = re.sub(r'^(高等数学|线性代数|概率论与数理统计|基础高数|基础线代|基础概率论|强化高数|强化线代|强化概率)[\s\-–—·_]*', '', s).strip()
+    s = re.sub(r'^(第[一二三四五六七八九十\d]+[讲章节篇部分]|讲\s*\d+\s*讲?|\d+)[_\s·、\-–—]*', '', s).strip()
+    s = re.sub(r'^(第[一二三四五六七八九十\d]+[讲章节篇部分]|讲\s*\d+\s*讲?|\d+)[_\s·、\-–—]*', '', s).strip()
+    s = re.sub(r'^[一二三四五六七八九十]+[、\.:：]\s*', '', s).strip()
+    s = re.sub(r'^\d+[、\.:：\s]+', '', s).strip()
+    s = re.sub(r'^[①②③④⑤⑥⑦⑧⑨⑩]\s*', '', s).strip()
     s = re.sub(r'[。.;;,，:：]+$', '', s).strip()
+    return s
+
+def clean_and_validate_node_name(name: str):
+    if not name:
+        return None
+    s = str(name).strip()
+    
+    # 替换下划线与破折号为标准空格
+    s = s.replace('_', ' ')
+    s = re.sub(r'[—–—]+', ' ', s)
+    
+    # 去除 Markdown 加粗、斜体、引用
+    s = re.sub(r'[\*"`\']', '', s).strip()
+    s = re.sub(r'\s+', ' ', s).strip()
+    
+    # 剥离前缀学科与讲/章序号
+    s = re.sub(r'^(高等数学|线性代数|概率论与数理统计|基础高数|基础线代|基础概率论|强化高数|强化线代|强化概率)[\s\-–—·_]*', '', s).strip()
+    s = re.sub(r'^(第[一二三四五六七八九十\d]+[讲章节篇部分]|讲\s*\d+\s*讲?|\d+)[_\s·、\-–—]*', '', s).strip()
+    s = re.sub(r'^(第[一二三四五六七八九十\d]+[讲章节篇部分]|讲\s*\d+\s*讲?|\d+)[_\s·、\-–—]*', '', s).strip()
+    s = re.sub(r'^[一二三四五六七八九十]+[、\.:：]\s*', '', s).strip()
+    s = re.sub(r'^\d+[、\.:：\s]+', '', s).strip()
+    s = re.sub(r'^[①②③④⑤⑥⑦⑧⑨⑩]\s*', '', s).strip()
+    
+    # 考研标准数学符号向规范中文本体转译
+    s = s.replace(r'$\frac00$', '0/0型未定式')
+    s = s.replace(r'$\frac{0}{0}$', '0/0型未定式')
+    s = s.replace(r'$\frac\infty\infty$', '∞/∞型未定式')
+    s = s.replace(r'$\frac{\infty}{\infty}$', '∞/∞型未定式')
+    s = s.replace(r'$0\cdot\infty$', '0·∞型未定式')
+    s = s.replace(r'$\infty-\infty$', '∞-∞型未定式')
+    s = s.replace(r'$1^\infty$', '1^∞型幂指函数')
+    s = s.replace(r'$0^0$', '0^0型幂指函数')
+    s = s.replace(r'$\infty^0$', '∞^0型幂指函数')
+    s = s.replace(r'$\chi^2$', '卡方分布')
+    s = s.replace(r'\chi^2', '卡方分布')
+    s = s.replace(r'$t$', 't')
+    s = s.replace(r'$F$', 'F')
+    s = s.replace(r'$X$', '随机变量X')
+    s = s.replace(r'$f(x)$', '函数f(x)')
+    s = s.replace(r"$f'$", '导函数')
+    s = s.replace(r'$A^n$', '矩阵的高次幂A^n')
+    
+    # 去除多余的 $
+    s = re.sub(r'^\$+|\$+$', '', s).strip()
+    
+    # 严禁任何 LaTeX 语法碎片或未闭合公式流入本体名
+    if any(c in s for c in ['\\', '{', '}', '^', '$', '&', '=']):
+        return None
+    if any(k in s for k in ['frac', 'sum', 'int', 'sim', 'lim', 'cases', 'begin', 'end', 'alpha', 'beta', 'lambda', 'sigma', 'partial']):
+        return None
+        
+    # 严禁讲义编排/例题/排版注记作为考点流入
+    if any(k in s for k in ['印刷页', '物理页', '例题', '习题', '例3.', '例 3.', '例 1', '例 2', '编号连续', '选练', '必背结论', '注例', '出处', 'AIGC', '导读', '总览', '框架图', '思维导图', '题干', '详解']):
+        return None
+    if re.search(r'^(例|习题|\d+|[—\-–]+)', s):
+        return None
+    if any(k in s for k in ['---', '——', '--', '...']):
+        return None
+        
+    # 必须包含规范中文语义字符
+    if not re.search(r'[\u4e00-\u9fa5]', s):
+        return None
+        
+    # 长度限制: 2 到 45 字符
+    if len(s) < 2 or len(s) > 45:
+        return None
+        
+    # 剔除末尾多余标点
+    s = re.sub(r'[。.;;,，:：、\-—\s]+$', '', s).strip()
     return s
 
 def clean_term_prefix(term: str) -> str:
@@ -230,11 +304,16 @@ def parse_markdown_teaching_file(file_path: Path, source_id: str, discipline: st
     for line in lines:
         if line.startswith("# "):
             title = line[2:].strip()
-            title = re.sub(r'^[第讲篇章\d\s_·]+', '', title).strip()
-            if title:
-                current_topic = title
+            clean_title = clean_and_validate_node_name(title)
+            if clean_title:
+                current_topic = clean_title
             break
             
+    if current_topic == current_chapter:
+        c_clean = clean_and_validate_node_name(current_chapter)
+        if c_clean:
+            current_topic = c_clean
+
     nodes.append({
         "source_id": source_id,
         "source_name": source_name,
@@ -276,12 +355,12 @@ def parse_markdown_teaching_file(file_path: Path, source_id: str, discipline: st
                 ep_text = parts[0]
                 method_text = parts[1] if len(parts) > 1 else ""
                 clean_ep = re.sub(r'^(题型[一二三四五六七八九十\d]+|[①②③④⑤⑥⑦⑧⑨⑩\d]+)\s*', '', ep_text).strip()
-                clean_ep = normalize_surface(clean_ep)
-                if len(clean_ep) >= 3 and not clean_ep.startswith("知识点"):
+                clean_ep = clean_and_validate_node_name(clean_ep)
+                if clean_ep and len(clean_ep) >= 3 and not clean_ep.startswith("知识点"):
                     extracted_methods = []
                     for m in re.split(r'[、,;；/与和+]+', method_text):
-                        m_clean = normalize_surface(m)
-                        if len(m_clean) >= 2 and len(m_clean) <= 15:
+                        m_clean = clean_and_validate_node_name(m)
+                        if m_clean and len(m_clean) >= 2 and len(m_clean) <= 15:
                             extracted_methods.append(m_clean)
                             
                     nodes.append({
@@ -301,26 +380,29 @@ def parse_markdown_teaching_file(file_path: Path, source_id: str, discipline: st
         elif in_table and not line_str.startswith("|"):
             in_table = False
 
-        # 题型标题
-        ep_match = re.search(r'(题型[一二三四五六七八九十\d]+|[①②③④⑤⑥⑦⑧⑨⑩\d]+[、\.]\s*|盯住目标\s*\d*——|O[₁₂₃\d]：?)([^\|（\(\n\r]+)', line_str)
+        # 题型标题 (严格只匹配显式 题型/考点/盯住目标 标记，杜绝列表普通段落公式误匹配)
+        ep_match = re.search(r'(题型[一二三四五六七八九十\d]+[:：\s]*|考点[一二三四五六七八九十\d]+[:：\s]*|盯住目标\s*\d*——|【题型[一二三四五六七八九十\d]+】|【考点[一二三四五六七八九十\d]+】)([^\|（\(\n\r]+)', line_str)
         if ep_match and not line_str.startswith("|"):
-            ep_name = normalize_surface(ep_match.group(2))
-            ep_name = re.sub(r'^(求|计算|讨论|判定|证明)', '', ep_name).strip()
-            if len(ep_name) >= 3 and len(ep_name) <= 35 and not any(skip in ep_name for skip in ["印刷页", "例题", "公式"]):
-                nodes.append({
-                    "source_id": source_id,
-                    "source_name": source_name,
-                    "discipline": discipline,
-                    "chapter": current_chapter,
-                    "section": current_section,
-                    "node_type": "ExamPoint",
-                    "name": ep_name,
-                    "parent": current_topic,
-                    "related_methods": [],
-                    "related_knowledge": [],
-                    "related_exam_points": [],
-                    "notes": line_str[:120]
-                })
+            raw_ep = ep_match.group(2)
+            ep_name = clean_and_validate_node_name(raw_ep)
+            if ep_name:
+                ep_name = re.sub(r'^(求|计算|讨论|判定|证明)', '', ep_name).strip()
+                ep_name = clean_and_validate_node_name(ep_name)
+                if ep_name and len(ep_name) >= 3 and len(ep_name) <= 35:
+                    nodes.append({
+                        "source_id": source_id,
+                        "source_name": source_name,
+                        "discipline": discipline,
+                        "chapter": current_chapter,
+                        "section": current_section,
+                        "node_type": "ExamPoint",
+                        "name": ep_name,
+                        "parent": current_topic,
+                        "related_methods": [],
+                        "related_knowledge": [],
+                        "related_exam_points": [],
+                        "notes": line_str[:120]
+                    })
 
         # 知识点
         for kp in CORE_KNOWLEDGE_CATALOG.get(discipline, []):
@@ -542,21 +624,28 @@ def run_phase2_synthesis(all_raw_nodes):
     for n in all_raw_nodes:
         ntype = n["node_type"]
         disc = DISC_NORM.get(n["discipline"], n["discipline"])
-        name = normalize_surface(n["name"])
+        name = clean_and_validate_node_name(n["name"])
         if not name or len(name) < 2:
             continue
             
         key = (ntype, disc, name)
         d = fusion_dict[key]
         d["sources"].add(n["source_id"])
-        if n.get("parent") and not d["parent"]:
-            d["parent"] = n["parent"]
+        parent_cleaned = clean_and_validate_node_name(n.get("parent", ""))
+        if parent_cleaned and not d["parent"]:
+            d["parent"] = parent_cleaned
         for m in n.get("related_methods", []):
-            d["related_methods"].add(normalize_surface(m))
+            m_cl = clean_and_validate_node_name(m)
+            if m_cl:
+                d["related_methods"].add(m_cl)
         for k in n.get("related_knowledge", []):
-            d["related_knowledge"].add(normalize_surface(k))
+            k_cl = clean_and_validate_node_name(k)
+            if k_cl:
+                d["related_knowledge"].add(k_cl)
         for ep in n.get("related_exam_points", []):
-            d["related_exam_points"].add(normalize_surface(ep))
+            ep_cl = clean_and_validate_node_name(ep)
+            if ep_cl:
+                d["related_exam_points"].add(ep_cl)
         if n.get("notes") and len(d["notes"]) < 3:
             d["notes"].append(n["notes"])
 
@@ -972,6 +1061,18 @@ def run_phase5_canonical_layer(teaching_candidates, alignment_results, question_
                         if len(method_to_pitfalls[c["id"]]) < 5:
                             method_to_pitfalls[c["id"]].add(surf)
 
+    def sanitize_relation_meta(text):
+        if not text:
+            return ""
+        s = str(text).strip()
+        s = re.sub(r'[\*"`\']', '', s).strip()
+        s = s.replace(r'$\frac00$', '0/0型未定式')
+        s = s.replace(r'$\chi^2$', '卡方分布')
+        s = re.sub(r'^\$+|\$+$', '', s).strip()
+        s = re.sub(r'^[①②③④⑤⑥⑦⑧⑨⑩\d]+[\.、\s]*', '', s).strip()
+        s = re.sub(r'\s+', ' ', s).strip()
+        return s[:70]
+
     canonical_nodes = []
     for c in teaching_candidates:
         nid = c["id"]
@@ -980,9 +1081,29 @@ def run_phase5_canonical_layer(teaching_candidates, alignment_results, question_
         # 组装实证与教学融合 relations
         rel_kp = [kp for kp, _ in ep_to_kps[nid].most_common(5)] if nid in ep_to_kps else c.get("related_knowledge", [])
         rel_m = [m for m, _ in ep_to_methods[nid].most_common(5)] if nid in ep_to_methods else c.get("related_methods", [])
-        rel_sig = [s for s, _ in ep_to_signals[nid].most_common(5)]
-        rel_cond = sorted(list(method_to_conditions[nid]))
-        rel_pf = sorted(list(method_to_pitfalls[nid]))
+        
+        # 清洗 signals, conditions, pitfalls
+        raw_sigs = [s for s, _ in ep_to_signals[nid].most_common(8)]
+        rel_sig = []
+        for s in raw_sigs:
+            cl = sanitize_relation_meta(s)
+            if cl and len(cl) >= 3 and not any(k in cl for k in ['\\frac', '\\sum', '\\int', '\\begin', '\\end']) and cl not in rel_sig:
+                rel_sig.append(cl)
+                if len(rel_sig) >= 5: break
+                
+        rel_cond = []
+        for s in sorted(list(method_to_conditions[nid])):
+            cl = sanitize_relation_meta(s)
+            if cl and len(cl) >= 3 and not any(k in cl for k in ['\\frac', '\\sum', '\\int', '\\begin', '\\end']) and cl not in rel_cond:
+                rel_cond.append(cl)
+                if len(rel_cond) >= 5: break
+                
+        rel_pf = []
+        for s in sorted(list(method_to_pitfalls[nid])):
+            cl = sanitize_relation_meta(s)
+            if cl and len(cl) >= 3 and not any(k in cl for k in ['\\frac', '\\sum', '\\int', '\\begin', '\\end']) and cl not in rel_pf:
+                rel_pf.append(cl)
+                if len(rel_pf) >= 5: break
 
         rel = {
             "knowledge": rel_kp,
@@ -992,9 +1113,14 @@ def run_phase5_canonical_layer(teaching_candidates, alignment_results, question_
             "pitfalls": rel_pf
         }
         
-        aliases = sorted(list(node_aliases[nid]))
-        if c["name"] in aliases:
-            aliases.remove(c["name"])
+        raw_aliases = sorted(list(node_aliases[nid]))
+        aliases = []
+        for a in raw_aliases:
+            if a == c["name"]:
+                continue
+            cl_a = sanitize_relation_meta(a)
+            if cl_a and len(cl_a) >= 2 and not any(k in cl_a for k in ['\\', '{', '}', '$', 'frac', 'sum']) and cl_a not in aliases:
+                aliases.append(cl_a)
 
         node_obj = {
             "id": nid,
