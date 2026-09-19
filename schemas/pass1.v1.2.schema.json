@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Pass1SemanticAnalysisV1_2",
+  "description": "Schema for Pass 1 multimodal semantic analysis of graduate mathematics questions",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "qid",
+    "input_assessment",
+    "objective",
+    "signals",
+    "knowledge_candidates",
+    "exam_point_candidates",
+    "used_methods",
+    "alternative_methods",
+    "invalid_method_candidates",
+    "key_transformations",
+    "conditions",
+    "pitfalls",
+    "solution_skeleton",
+    "bottleneck_candidates",
+    "problem_form",
+    "question_text_rough",
+    "solution_outline_rough",
+    "uncertainties",
+    "confidence",
+    "source_fingerprint",
+    "generation_fingerprint"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "pass1.v1.2"
+    },
+    "qid": {
+      "type": "string"
+    },
+    "input_assessment": {
+      "type": "object",
+      "required": [
+        "question_readable",
+        "solution_present",
+        "solution_complete",
+        "visual_issues"
+      ],
+      "properties": {
+        "question_readable": {
+          "type": "boolean"
+        },
+        "solution_present": {
+          "type": "boolean"
+        },
+        "solution_complete": {
+          "type": "boolean"
+        },
+        "visual_issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "objective": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "text",
+          "evidence"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "signals": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "text",
+          "suggests",
+          "evidence"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "suggests": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "knowledge_candidates": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "role",
+          "evidence"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "core",
+              "supporting"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "used_methods": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "role",
+          "why_selected",
+          "evidence"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "main",
+              "auxiliary"
+            ]
+          },
+          "why_selected": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "alternative_methods": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "applicability",
+          "reason",
+          "evidence"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "applicability": {
+            "type": "string",
+            "enum": [
+              "applicable",
+              "uncertain"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "invalid_method_candidates": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "reason",
+          "violated_conditions",
+          "evidence"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "violated_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "solution_skeleton": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "step",
+          "purpose",
+          "evidence"
+        ],
+        "properties": {
+          "step": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "bottleneck_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "signal_recognition",
+          "knowledge_recall",
+          "method_selection",
+          "validity_check",
+          "key_transformation",
+          "computation",
+          "detail_check"
+        ]
+      }
+    },
+    "problem_form": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "enum": [
+          "选择题",
+          "填空题",
+          "计算题",
+          "证明题",
+          "应用题",
+          "综合题"
+        ]
+      }
+    },
+    "source_fingerprint": {
+      "type": "string"
+    },
+    "generation_fingerprint": {
+      "type": "string"
+    }
+  }
+}
